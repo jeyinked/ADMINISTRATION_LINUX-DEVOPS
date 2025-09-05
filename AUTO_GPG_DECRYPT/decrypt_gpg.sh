@@ -1,10 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
-list=$(cd /home/dqe/lechos_parisien/in/ && ls *)
+indir="/home/dqe/lechos_parisien/in"
+outdir="/home/dqe/lechos_parisien/out"
 
+mkdir -p "$outdir"
 
-for i in $list
-do
-cd  /home/dqe/lechos_parisien/in/ && gpg --decrypt $i > /home/dqe/lechos_parisien/out/${i}.decrypt.txt
+shopt -s nullglob
+
+for file in "$indir"/*; do
+  [ -f "$file" ] || continue
+
+  filename=$(basename "$file")
+  outfile="$outdir/${filename}.decrypt.txt"
+
+  if gpg --batch --quiet --decrypt --output "$outfile" "$file"; then
+    echo "✅ Déchiffré : $filename → $outfile"
+  else
+    echo "❌ Échec : $filename" >&2
+  fi
 done
-root@lechos-parisien-1:/home/dqe/lechos_parisien#
