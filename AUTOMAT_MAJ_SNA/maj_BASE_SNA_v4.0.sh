@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#-------------------------VARIABLES ID FTP-----------------------------------------#
-
+# Variables FTP
 SERVEUR=ftpsqa.mediapostdata.com
 USERFTP4=QxO-x3x5x3-x6x2x6
 PASSWD4=xxxxxx
@@ -9,12 +8,10 @@ LFTP=/usr/bin/lftp
 BASES_SNA_NEW=/home/path/BASES_SNA_NEW
 INCR=1
 
-#------------------------VARIABLES MAJ---------------------------------------------#
-
+# Variables versions
 CAFVNN=/home/path/BASES_SNA/cafvnn*.zip
 VERSION_CAFVNN=$(echo $CAFVNN | tr -cd '[:digit:]')
 NEWVERSION_CAFVNN=$(echo $(($VERSION_CAFVNN+$INCR)))
-
 
 HX2FVNN=/home/path/BASES_SNA/hx2fvnn*.zip
 VERSION_HX2FVNN=$(echo $HX2FVNN | tr -cd '[:digit:]' | cut -c 2-4)
@@ -36,10 +33,7 @@ HLFVNN=/home/path/BASES_SNA/hlfvnn*.zip
 VERSION_HLFVNN=$(echo $HLFVNN | tr -cd '[:digit:]') 
 NEWVERSION_HLFVNN=$(echo $(($VERSION_HLFVNN+$INCR)))
 
- 
-#--------------------------AFFICHAGE DU RESULTAT-------------------------------------#
-
-
+# Affichage des versions
 echo "la version actuel est cafvnn$(echo $CAFVNN | tr -cd '[:digit:]').zip"
 echo "la nouvelle version recherché est donc cafvnn${NEWVERSION_CAFVNN}.zip"
 sleep 2
@@ -59,8 +53,7 @@ echo "la version actuel est hlfvnn$(echo $HLFVNN | tr -cd '[:digit:]').zip"
 echo "la nouvelle version recherché est donc hlfvnn${NEWVERSION_HLFVNN}.zip"
 sleep 5 
 
-
-
+# Recherche fichiers
 echo "recherche de la version de cafvnn${NEWVERSION_CAFVNN}.zip en cours..."
 sleep 2
 echo "recherche de la version de hx2fvnn${NEWVERSION_HX2FVNN}.zip  en cours..."
@@ -74,39 +67,56 @@ sleep 2
 echo "recherche de la version de hlfvnn${NEWVERSION_HLFVNN}.zip  en cours..."
 sleep 5
 
+# Téléchargement
+mkdir -p "$BASES_SNA_NEW"
+TO_DL=( \
+  "cafvnn${NEWVERSION_CAFVNN}.zip" \
+  "hx2fvnn${NEWVERSION_HX2FVNN}.zip" \
+  "hf2fvnn${NEWVERSION_HF2FVNN}.zip" \
+  "hm2fv${NEWVERSION_HM2FV}.zip" \
+  "r2fvnn${NEWVERSION_R2FVNN}.zip" \
+  "hlfvnn${NEWVERSION_HLFVNN}.zip" \
+)
 
-#-------------------------TELECHARGEMENT DU FICHIER-------------------------------#
-
-$LFTP -u $USERFTP4,$PASSWD4 $SERVEUR << EOF
-ls
-lcd BASES_SNA_NEW
-get  cafvnn${NEWVERSION_CAFVNN}.zip 
-get  hx2fvnn${NEWVERSION_HX2FVNN}.zip
-get  hf2fvnn${NEWVERSION_HF2FVNN}.zip
-get  hm2fv${NEWVERSION_HM2FV}.zip
-get  r2fvnn${NEWVERSION_R2FVNN}.zip
-get  hlfvnn${NEWVERSION_HLFVNN}.zip
+$LFTP -u "$USERFTP4","$PASSWD4" "$SERVEUR" << EOF
+set cmd:fail-exit yes
+lcd "$BASES_SNA_NEW"
+get ${TO_DL[0]}
+get ${TO_DL[1]}
+get ${TO_DL[2]}
+get ${TO_DL[3]}
+get ${TO_DL[4]}
+get ${TO_DL[5]}
+bye
 EOF
 
-
-#--------------------------TRAITEMENT DU FICHIER-----------------------------------#
-
-#Si le code retour du telechargement est 1 (donc erreur), Affiche le fichier est pas disponible, autrement, il execute le traitement
-
-if [ $? -eq 1 ]
- 	then echo "Les fichiers sont  pas disponibles"
-else
-         cp -pr /home/path/BASES_SNA/* /home/dqe/BASES_SNA.old/   
-         rm -rf /home/path/BASES_SNA/*
-	 cp -pr /home/path/BASES_SNA_NEW/* /home/dqe/BASES_SNA/
-         rm -rf /home/path/BASES_SNA_NEW/*
-	 echo "Nouveaux fichiers disponibles dans /home/dqe/BASES_SNA/"
-	 echo "Bonjour, les nouveaux fichiers pour la MAJ SNA sont disponibles sur BACKUP1 dans /home/path/BASES_SNA/" | mail -s"Nouveaux fichiers SNA disponible sur BACKUP1" jaguas@dqe-software.com
-         echo "Bonjour, les nouveaux fichiers pour la MAJ SNA sont disponibles sur BACKUP1 dans /home/path/BASES_SNA" | mail -s"Nouveaux fichiers SNA disponible sur BACKUP1" blecocq@dqe-software.com
-
-
+# Vérif code retour
+lftp_rc=$?
+if [ $lftp_rc -ne 0 ]; then
+  echo "Les fichiers sont pas disponibles (échec lftp, rc=${lftp_rc})"
+  exit 1
 fi
 
+# Vérif fichiers téléchargés
+missing=0
+for f in "${TO_DL[@]}"; do
+  if [ ! -f "$BASES_SNA_NEW/$f" ]; then
+    echo "Fichier manquant après téléchargement: $f"
+    missing=1
+  fi
+done
+if [ $missing -ne 0 ]; then
+  echo "Les fichiers sont pas tous disponibles. Abandon du traitement."
+  exit 1
+fi
 
-#JEROME AGUAS @ DQE SOFTWARE
+# Traitement des fichiers
+cp -pr /home/path/BASES_SNA/* /home/dqe/BASES_SNA.old/   
+rm -rf /home/path/BASES_SNA/*
+cp -pr /home/path/BASES_SNA_NEW/* /home/dqe/BASES_SNA/
+rm -rf /home/path/BASES_SNA_NEW/*
+echo "Nouveaux fichiers disponibles dans /home/dqe/BASES_SNA/"
+echo "Bonjour, les nouveaux fichiers pour la MAJ SNA sont disponibles sur BACKUP1 dans /home/path/BASES_SNA/" | mail -s"Nouveaux fichiers SNA disponible sur BACKUP1" jaguas@dqe-software.com
+echo "Bonjour, les nouveaux fichiers pour la MAJ SNA sont disponibles sur BACKUP1 dans /home/path/BASES_SNA" | mail -s"Nouveaux fichiers SNA disponible sur BACKUP1" blecocq@dqe-software.com
 
+# Fin script
