@@ -1,10 +1,6 @@
 #!/usr/bin/env bash      # Exécuter avec bash
 set -euo pipefail         # Stopper sur erreur, variables non définies, erreurs de pipe
 
-: "${GIT_USER:?export GIT_USER d'abord}"    # Vérifie que GIT_USER est défini
-: "${GIT_PASS:?export GIT_PASS d'abord}"    # Vérifie que GIT_PASS est défini (PAT GitLab)
-: "${SONAR_TOKEN:?export SONAR_TOKEN d'abord}" # Vérifie que SONAR_TOKEN est défini
-
 WORK_ROOT="/home/sonarqube/DQE"             # Répertoire de travail
 REPO_URL="https://git.dqe-software.com/DQE-SOFTWARE/EMAIL"  # URL du dépôt Git
 REPO_DIR="$WORK_ROOT/EMAIL"                 # Répertoire cible du dépôt cloné
