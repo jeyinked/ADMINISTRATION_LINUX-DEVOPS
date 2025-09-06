@@ -1,6 +1,6 @@
 
 
-# singlev3-server-launcher
+# singlev3-server-launcher (restart_services.sh)
 
 Ce script Bash permet de lancer automatiquement plusieurs instances de `server.py` dans des sessions **tmux** séparées.  
 Chaque instance est associée à une région (FIN, JPN, KOR, SGP, ITA, BEL) et écoute sur un port spécifique.  
