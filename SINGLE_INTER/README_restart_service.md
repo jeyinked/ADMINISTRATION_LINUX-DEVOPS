@@ -18,4 +18,4 @@ Chaque instance est associée à une région (FIN, JPN, KOR, SGP, ITA, BEL) et �
 
 ## Utilisation
 ```bash
-./launch_servers.sh
+./restart_services.sh
