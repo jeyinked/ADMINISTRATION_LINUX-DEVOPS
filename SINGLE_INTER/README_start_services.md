@@ -14,5 +14,5 @@ Le script :
 ## Utilisation
 
 ```bash
-chmod +x launch_servers.sh     # Rendre exécutable
-./launch_servers.sh            # Lancer les serveurs
+chmod +x start_services.sh     # Rendre exécutable
+./start_services.sh            # Lancer les serveurs
