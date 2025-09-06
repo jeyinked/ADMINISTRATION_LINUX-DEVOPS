@@ -12,4 +12,4 @@ Ce script permet de mettre à jour le fichier `dump.rdb` d'un serveur Redis depu
 1. Modifier l'hôte et les chemins si besoin.
 2. Exécuter le script en tant que root :
    ```bash
-   sudo ./update_redis_dump.sh
+   ./replication_redis.sh
