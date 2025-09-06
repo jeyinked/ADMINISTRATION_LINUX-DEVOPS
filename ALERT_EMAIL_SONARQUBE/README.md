@@ -24,3 +24,10 @@ Supprime le dépôt local existant
 Clone le dépôt Git
 Lance l’analyse SonarQube
 ```
+---
+
+
+## Utilisation:
+```
+./ALERT_EMAIL_SONARQUBE.sh
+```
