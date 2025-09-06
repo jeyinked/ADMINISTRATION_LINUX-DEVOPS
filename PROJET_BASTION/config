@@ -1,0 +1,12 @@
+Host bastion               # Alias de connexion au bastion
+    HostName ip_address_of_bastion  # Adresse IP/DNS du bastion
+    IdentityFile ~/.ssh/id_rsa      # Clé privée utilisée
+    User user_name                  # Nom d’utilisateur SSH
+
+Host server_target         # Alias de connexion au serveur cible
+    ProxyJump bastion      # Passe par le bastion pour atteindre la cible
+    HostName ip_address_of_server_target  # Adresse IP/DNS du serveur cible
+    IdentityFile ~/.ssh/id_rsa            # Clé privée utilisée
+    User user_name                        # Nom d’utilisateur SSH
+
+# Fichier à mettre sur le serveur de rebond (bastion) dans /home/user/.ssh/config. # faire un $: ssh server_target pour se connecter sur le serveur cible.
