@@ -22,8 +22,7 @@ Modifier dans le script :
 
 ## ▶️ Utilisation
 ```bash
-./maj_sna.sh
-
+./maj_BASE_SNA_v4.0.sh
 
 📂 Structure
 
