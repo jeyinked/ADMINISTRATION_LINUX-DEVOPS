@@ -10,7 +10,7 @@ Ce script Bash permet de **restaurer les fichiers de base** (base de données, s
 ## Utilisation
 
 ```bash
-./reset_b2b.sh
+./stepback_maj_b2b.sh
 
 ⚠️ Assurez-vous que la session tmux B2B:0 existe avant d’exécuter le script.
 
