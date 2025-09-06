@@ -19,6 +19,8 @@ export SONAR_TOKEN="mon_token_sonar"
 ---
 
 ## Le script :
+```
 Supprime le dépôt local existant
 Clone le dépôt Git
 Lance l’analyse SonarQube
+```
