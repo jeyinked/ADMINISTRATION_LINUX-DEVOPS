@@ -34,8 +34,8 @@ decrypt.sh # Le script Bash
    ```bash
    gpg --version
 
-3. Rendre le script exécutable: chmod +x decrypt.sh
-4. Lancer le script : ./decrypt.sh
+3. Rendre le script exécutable: chmod +x decrypt_gpg.sh
+4. Lancer le script : ./decrypt_gpg.sh
 
 
    
