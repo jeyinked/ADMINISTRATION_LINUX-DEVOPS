@@ -30,3 +30,9 @@ Clonez ce dépôt et placez le script où vous voulez (ex. `/usr/local/bin/`).
 git clone https://github.com/votre-pseudo/simple-firewall.git
 cd simple-firewall
 chmod +x firewall.sh
+```
+
+## Vérification des régles
+```bash
+sudo iptables -L -v -n
+```
