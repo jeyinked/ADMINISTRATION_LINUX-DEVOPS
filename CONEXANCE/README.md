@@ -10,5 +10,5 @@ Ce script Bash permet de démarrer automatiquement les services nécessaires à 
 
 ## Utilisation
 ```bash
-./start_services.sh
+./start_conexance.sh
 
