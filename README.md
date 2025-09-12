@@ -1,4 +1,6 @@
 ![CI](https://github.com/jeyinked/ADMINISTRATION_LINUX-DEVOPS/actions/workflows/ci.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 
 
 # ADMINISTRATION_LINUX-DEVOPS
