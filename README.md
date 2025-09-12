@@ -1,3 +1,6 @@
+![CI](https://github.com/jeyinked/ADMINISTRATION_LINUX-DEVOPS/actions/workflows/lint-shell.yml/badge.svg?branch=main)
+![License](https://img.shields.io/github/license/jeyinked/ADMINISTRATION_LINUX-DEVOPS)
+
 # ADMINISTRATION_LINUX-DEVOPS
 
 # 🛠️ Scripts & Développement
