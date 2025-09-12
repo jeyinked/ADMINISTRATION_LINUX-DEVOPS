@@ -13,4 +13,4 @@ Playbook Ansible pour déployer et redémarrer le service **singlev3 JPN**.
 
 ## Utilisation
 ```bash
-ansible-playbook -i hosts maj_singlev3.yml
+run_maj_singlev3.sh
