@@ -1,5 +1,5 @@
+![CI](https://github.com/jeyinked/ADMINISTRATION_LINUX-DEVOPS/actions/workflows/ci.yml/badge.svg)
 
-![License](https://img.shields.io/github/license/jeyinked/ADMINISTRATION_LINUX-DEVOPS)
 
 # ADMINISTRATION_LINUX-DEVOPS
 
