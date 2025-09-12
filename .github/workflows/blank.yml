@@ -15,7 +15,7 @@ jobs:
 
       # Vérifie les scripts Shell avec ShellCheck
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@v1.1.0
+        uses: ludeeus/action-shellcheck@v1.0.0
 
       # Petit test pour montrer que ça marche
       - name: Run a one-line script
