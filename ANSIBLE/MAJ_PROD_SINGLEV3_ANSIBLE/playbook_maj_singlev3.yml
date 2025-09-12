@@ -1,0 +1,43 @@
+---
+- name: "[MAJ SINGLEV3]"                   # Nom du playbook
+  hosts: [SINGLEV3]                        # Exécution sur le groupe d’hôtes SINGLEV3
+  become: yes                              # Autoriser l’élévation de privilèges
+  tasks:                                   # Début de la liste des tâches
+
+    - name: Suppression de singlev3.old    # Nettoie le dossier de backup existant
+      shell: rm -rf *                      # Supprime tout le contenu
+      args:
+        chdir: /home/dqe/singlev3.old/     # Exécute la commande dans ce dossier
+
+    - name: Backup de singlev3 dans singlev3.old   # Sauvegarde la version actuelle
+      shell: rsync -a --delete /home/dqe/singlev3/ /home/dqe/singlev3.old/   # Copie sync avec rsync
+
+    - name: "Changement / vérification des permissions des fichiers de singlev3.old"   # Corrige les droits
+      shell: chown -R dqe:dqe .            # Applique les droits utilisateur/groupe
+      args:
+        chdir: /home/dqe/singlev3.old/     # Exécute dans le dossier backup
+
+    - name: "Copie de la nouvelle version de singlev3"   # Déploie la nouvelle version
+      copy:
+        src: /etc/ansible/maj_singlev3/singlev3.new/singlev3/   # Répertoire source
+        dest: /home/dqe/                 # Destination du déploiement
+        owner: dqe                       # Définit le propriétaire
+        group: dqe                       # Définit le groupe
+        mode: "0755"                     # Droits sur les fichiers copiés
+
+    - name: "Generation des bases JPN"   # Lance la génération des données JPN
+      become_user: dqe                   # Exécute en tant qu’utilisateur dqe
+      shell: python3 parse.py JPN        # Script de génération
+      args:
+        chdir: /home/dqe/singlev3/       # Exécution depuis ce dossier
+
+    - name: "indexation de la BDD JPN"   # Indexe les données dans Redis
+      shell: redis-cli 'swapdb 01'       # Commande Redis utilisée dans ton script
+
+    - name: "reboot le service JPN"      # Relance le service applicatif JPN
+      become_user: dqe                   # Lancement sous l’utilisateur dqe
+      shell: nohup python3 /home/dqe/singlev3/server.py JPN 5760 51.178.63.198 >> /home/dqe/singlev3/jpn.out 2>&1 &   # Redémarre le serveur Python
+      args:
+        chdir: /home/dqe/singlev3/       # Exécution depuis ce dossier
+      async: 10                          # Lance la tâche en arrière-plan
+      poll: 0                            # Ne pas attendre la fin du process
