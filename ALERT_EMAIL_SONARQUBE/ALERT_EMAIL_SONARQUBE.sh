@@ -14,7 +14,11 @@ git clone "https://${GIT_USER}:${GIT_PASS}@git.dqe-software.com/DQE-SOFTWARE/EMA
 
 cd "$REPO_DIR"                              # Entre dans le dossier du dépôt cloné
 
-vrvocvê,cel;cz
+#!/bin/bash
+if [ "$foo" = "bar" ]
+echo "hello"
+fi
+
 
 # Lance l'analyse SonarQube avec le token d'authentification
 sonar-scanner \
