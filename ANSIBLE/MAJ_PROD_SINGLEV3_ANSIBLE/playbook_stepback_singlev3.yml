@@ -1,0 +1,17 @@
+---
+- name: "[SINGLEV3]"
+  hosts: all
+  tasks:
+
+    - name: Recuperation de l'ancienne version de email 
+      shell: cd /home/dqe/singlev3 && cp -pr ../singlev3.old/* . 
+    
+    - name: "Changement / vérification des permissions de fichiers de singlev3"
+      shell: cd /home/dqe/singlev3/ && chown -R dqe:dqe * 
+ 
+       
+
+   
+
+
+
