@@ -1,17 +1,10 @@
 ---
-- name: "[SINGLEV3]"
-  hosts: all
-  tasks:
+- name: "[SINGLEV3]"                                      # Nom du playbook
+  hosts: all                                               # Cible tous les hôtes de l’inventaire
+  tasks:                                                   # Début des tâches
 
-    - name: Recuperation de l'ancienne version de email 
-      shell: cd /home/dqe/singlev3 && cp -pr ../singlev3.old/* . 
-    
-    - name: "Changement / vérification des permissions de fichiers de singlev3"
-      shell: cd /home/dqe/singlev3/ && chown -R dqe:dqe * 
- 
-       
+    - name: Recuperation de l'ancienne version de email    # Restaure l’ancienne version
+      shell: cd /home/dqe/singlev3 && cp -pr ../singlev3.old/* .   # Copie les fichiers depuis le backup
 
-   
-
-
-
+    - name: "Changement / vérification des permissions de fichiers de singlev3"   # Corrige les droits
+      shell: cd /home/dqe/singlev3/ && chown -R dqe:dqe *   # Change propriétaire et groupe
